@@ -1,4 +1,4 @@
-package teamunc.ekip_unclib.models;
+package fr.teamunc.ekip_unclib.models;
 
 import java.io.Serializable;
 import java.util.Map;

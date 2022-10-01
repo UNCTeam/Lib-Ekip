@@ -1,9 +1,10 @@
 name: Ekip_UNCLib
 version: '${project.version}'
-main: teamunc.ekip_unclib.Ekip_UNCLib
+main: fr.teamunc.ekip_unclib.Ekip_UNCLib
 api-version: 1.19
 prefix: UNC-Ekip
 load: STARTUP
 authors: [ TeamUNC ]
 description: Lib plugin for team gestion
 website: team-unc.fr
+depend: [ Base_UNCLib ]

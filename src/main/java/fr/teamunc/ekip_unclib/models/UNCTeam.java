@@ -1,13 +1,13 @@
-package teamunc.ekip_unclib.models;
+package fr.teamunc.ekip_unclib.models;
 
 import lombok.*;
-import teamunc.base_unclib.models.jsonEntities.UNCEntitySerializable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
 @Builder(toBuilder = true)
-public class UNCTeam extends UNCEntitySerializable {
+public class UNCTeam{
     @Getter
     private IUNCTeamInformation additionalInformation;
     @Getter
@@ -16,7 +16,7 @@ public class UNCTeam extends UNCEntitySerializable {
     private String name;
     @Getter
     private String prefix;
-    @Getter @Singular
+    @Getter
     private Collection<UUID> players;
     @Getter
     private UUID teamId;
@@ -26,6 +26,14 @@ public class UNCTeam extends UNCEntitySerializable {
     }
 
     public static UNCTeamBuilder builder(String name) {
-        return new UNCTeamBuilder().name(name);
+        return new UNCTeamBuilder().name(name).players(new ArrayList<>());
+    }
+
+    public void addPlayer(UUID uuid) {
+        this.players.add(uuid);
+    }
+
+    public void removePlayer(UUID uuid) {
+        this.players.remove(uuid);
     }
 }
