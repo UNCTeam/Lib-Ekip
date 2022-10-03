@@ -1,11 +1,12 @@
-package fr.teamunc.ekip_unclib.models;
+package fr.teamunc.ekip_unclib.controllers;
 
+import fr.teamunc.ekip_unclib.models.UNCTeam;
 import lombok.Getter;
 import fr.teamunc.base_unclib.models.jsonEntities.UNCEntitiesContainer;
 
 import java.util.ArrayList;
 
-public class UNCTeamContainer extends UNCEntitiesContainer{
+public class UNCTeamController extends UNCEntitiesContainer{
 
     @Getter
     private ArrayList<UNCTeam> teams = new ArrayList<>();
@@ -26,7 +27,7 @@ public class UNCTeamContainer extends UNCEntitiesContainer{
         return this.teams.removeIf(team -> team.getName().equals(teamName));
     }
 
-    public UNCTeamContainer() {
+    public UNCTeamController() {
         super();
     }
 }

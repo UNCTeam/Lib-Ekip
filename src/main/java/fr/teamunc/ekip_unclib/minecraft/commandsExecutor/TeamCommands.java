@@ -15,7 +15,7 @@ public class TeamCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!EkipLib.isInit()) {
-            EkipLib.logError("EkipLib is not initialized!");
+            Message.Get().sendMessage("EkipLib is not initialized!", sender, true);
             return true;
         }
 

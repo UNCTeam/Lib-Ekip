@@ -1,15 +1,17 @@
 package fr.teamunc.ekip_unclib.models;
 
+import fr.teamunc.ekip_unclib.EkipLib;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 @Builder(toBuilder = true)
 public class UNCTeam{
     @Getter
-    private IUNCTeamInformation additionalInformation;
+    private Map<String, Object> additionalInformation;
     @Getter
     private String color;
     @Getter @NonNull
@@ -25,8 +27,12 @@ public class UNCTeam{
         return clazz.cast(this.additionalInformation.get(key));
     }
 
+    public void setAdditionalInformation(String key, Object value) {
+        this.additionalInformation.put(key, value);
+    }
+
     public static UNCTeamBuilder builder(String name) {
-        return new UNCTeamBuilder().name(name).players(new ArrayList<>());
+        return new UNCTeamBuilder().name(name).players(new ArrayList<>()).additionalInformation(EkipLib.getTeamInformationInitialiser());
     }
 
     public void addPlayer(UUID uuid) {
