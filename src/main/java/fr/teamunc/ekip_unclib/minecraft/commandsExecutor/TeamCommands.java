@@ -1,6 +1,6 @@
 package fr.teamunc.ekip_unclib.minecraft.commandsExecutor;
 
-import fr.teamunc.base_unclib.models.utils.helpers.Message;
+import fr.teamunc.base_unclib.utils.helpers.Message;
 import fr.teamunc.ekip_unclib.EkipLib;
 import fr.teamunc.ekip_unclib.models.UNCTeam;
 import org.bukkit.Bukkit;
@@ -24,7 +24,7 @@ public class TeamCommands implements CommandExecutor {
                 case "create": {
                     if (args.length < 2) {
                         Message.Get().sendMessage("usage : /unct create <teamName> <(optional) teamColor> <(optional) customPrefix>", sender, true);
-                    } else if (EkipLib.getTeamContainer().getTeam(args[1]) == null) {
+                    } else if (EkipLib.getTeamController().getTeam(args[1]) == null) {
                         UNCTeam.UNCTeamBuilder teamBuilder = UNCTeam.builder(args[1]);
 
                         if (args.length >= 3) {
@@ -39,7 +39,7 @@ public class TeamCommands implements CommandExecutor {
 
                         UNCTeam team = teamBuilder.build();
 
-                        EkipLib.getTeamContainer().addTeam(team);
+                        EkipLib.getTeamController().addTeam(team);
                         Message.Get().sendMessage("Team " + args[1] + " created!", sender, false);
                     } else {
                         Message.Get().sendMessage("Team " + args[1] + " already exists!", sender, true);
@@ -50,7 +50,7 @@ public class TeamCommands implements CommandExecutor {
                     if (args.length < 2) {
                         Message.Get().sendMessage("usage : /unct delete <teamName>", sender, true);
                     } else {
-                        boolean deleted = EkipLib.getTeamContainer().removeTeam(args[1]);
+                        boolean deleted = EkipLib.getTeamController().removeTeam(args[1]);
 
                         if (deleted)
                             Message.Get().sendMessage("Team " + args[1] + " deleted!", sender, false);
@@ -64,7 +64,7 @@ public class TeamCommands implements CommandExecutor {
                         Message.Get().sendMessage("usage : /unct join <teamName> <playerName>", sender, true);
                     } else {
                         Player player = Bukkit.getPlayer(args[2]);
-                        UNCTeam team = EkipLib.getTeamContainer().getTeam(args[1]);
+                        UNCTeam team = EkipLib.getTeamController().getTeam(args[1]);
                         if (player == null || team == null) {
                             Message.Get().sendMessage("Player or team not found!", sender, true);
                         } else {
@@ -84,7 +84,7 @@ public class TeamCommands implements CommandExecutor {
                         Message.Get().sendMessage("usage : /unct leave <teamName> <playerName>", sender, true);
                     } else {
                         Player player = Bukkit.getPlayer(args[2]);
-                        UNCTeam team = EkipLib.getTeamContainer().getTeam(args[1]);
+                        UNCTeam team = EkipLib.getTeamController().getTeam(args[1]);
 
                         if (player == null || team == null) {
                             Message.Get().sendMessage("Player or team not found!", sender, true);
@@ -101,10 +101,10 @@ public class TeamCommands implements CommandExecutor {
                     return true;
                 }
                 case "list": {
-                    if (args.length >= 2 && EkipLib.getTeamContainer().getTeams().stream().noneMatch(team -> team.getName().equals(args[1]))) {
+                    if (args.length >= 2 && EkipLib.getTeamController().getTeams().stream().noneMatch(team -> team.getName().equals(args[1]))) {
                         Message.Get().sendMessage("usage : /unct list <(optional) teamName>", sender, true);
                     } else if (args.length >= 2) {
-                        UNCTeam team = EkipLib.getTeamContainer().getTeam(args[1]);
+                        UNCTeam team = EkipLib.getTeamController().getTeam(args[1]);
                         if (team != null) {
                             Message.Get().sendMessage("--- Team " + team.getName() + " : ", sender, false);
                             Message.Get().sendMessage("Players : ", sender, false);
@@ -114,7 +114,7 @@ public class TeamCommands implements CommandExecutor {
                         }
                     } else {
                         Message.Get().sendMessage("--- Teams : ", sender, false);
-                        EkipLib.getTeamContainer().getTeams().forEach(team -> Message.Get().sendMessage(team.getName(), sender, false));
+                        EkipLib.getTeamController().getTeams().forEach(team -> Message.Get().sendMessage(team.getName(), sender, false));
                     }
                     return true;
                 }
@@ -122,7 +122,7 @@ public class TeamCommands implements CommandExecutor {
                     if (args.length < 2) {
                         Message.Get().sendMessage("usage : /unct info <teamName>", sender, true);
                     } else {
-                        UNCTeam team = EkipLib.getTeamContainer().getTeam(args[1]);
+                        UNCTeam team = EkipLib.getTeamController().getTeam(args[1]);
                         if (team != null) {
                             Message.Get().sendMessage("---- Team " + team.getName() + " : ", sender, false);
                             Message.Get().sendMessage("Players : ", sender, false);

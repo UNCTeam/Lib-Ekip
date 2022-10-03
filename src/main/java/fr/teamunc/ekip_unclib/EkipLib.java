@@ -1,6 +1,7 @@
 package fr.teamunc.ekip_unclib;
 
 import fr.teamunc.ekip_unclib.controllers.UNCTeamController;
+import fr.teamunc.ekip_unclib.models.UNCTeamContainer;
 import lombok.Getter;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,7 +16,7 @@ public class EkipLib {
     @Getter
     private static JavaPlugin plugin;
     @Getter
-    private static UNCTeamController teamContainer;
+    private static UNCTeamController teamController;
     @Getter
     private static Map<String, Object> teamInformationInitialiser;
 
@@ -24,7 +25,7 @@ public class EkipLib {
         EkipLib.teamInformationInitialiser = teamInformationInitialiser;
 
         // init team container
-        teamContainer = initTeamContainer();
+        teamController = new UNCTeamController(initTeamContainer());
 
         // register commands
         initCommands();
@@ -34,15 +35,15 @@ public class EkipLib {
         return Objects.nonNull(plugin);
     }
 
-    private static UNCTeamController initTeamContainer() {
+    private static UNCTeamContainer initTeamContainer() {
         UNCEntitiesContainer.init(plugin.getDataFolder());
-        UNCTeamController res;
+        UNCTeamContainer res;
 
         try {
-            res = UNCEntitiesContainer.loadContainer("teams", UNCTeamController.class);
+            res = UNCEntitiesContainer.loadContainer("teams", UNCTeamContainer.class);
         } catch (Exception e) {
             plugin.getLogger().info("Creating new team container file");
-            res = new UNCTeamController();
+            res = new UNCTeamContainer();
         }
         return res;
     }

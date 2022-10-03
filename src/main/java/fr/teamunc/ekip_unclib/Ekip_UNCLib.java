@@ -11,6 +11,8 @@ public final class Ekip_UNCLib extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        EkipLib.getTeamContainer().save("teams");
+        if (EkipLib.isInit()) {
+            EkipLib.getTeamController().save("teams");
+        }
     }
 }
