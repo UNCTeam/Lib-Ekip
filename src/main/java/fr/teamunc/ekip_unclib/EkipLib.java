@@ -11,15 +11,13 @@ import java.util.Map;
 import java.util.Objects;
 
 public class EkipLib {
+    
+    @Getter
     private static JavaPlugin plugin;
     @Getter
     private static UNCTeamController teamContainer;
     @Getter
     private static Map<String, Object> teamInformationInitialiser;
-
-    public static JavaPlugin getPlugin() {
-        return plugin;
-    }
 
     public static void init(JavaPlugin plugin, Map<String, Object> teamInformationInitialiser) {
         EkipLib.plugin = plugin;
