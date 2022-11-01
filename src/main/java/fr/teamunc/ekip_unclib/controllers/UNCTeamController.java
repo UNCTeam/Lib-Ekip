@@ -1,5 +1,6 @@
 package fr.teamunc.ekip_unclib.controllers;
 
+import fr.teamunc.base_unclib.utils.helpers.Message;
 import fr.teamunc.ekip_unclib.models.UNCTeam;
 import fr.teamunc.ekip_unclib.models.UNCTeamContainer;
 
@@ -31,6 +32,7 @@ public class UNCTeamController{
 
     public UNCTeamController(UNCTeamContainer uncTeamContainer) {
         this.container = uncTeamContainer;
+        Message.Get().broadcastMessageToConsole("[CustomTeamController] : Loading " + container.getTeams().size() + " teams");
     }
 
     public void save(String fileName) {
