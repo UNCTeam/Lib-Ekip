@@ -6,6 +6,7 @@ public final class Ekip_UNCLib extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        EkipLib.initGameListeners(this);
     }
 
     @Override

@@ -1,17 +1,21 @@
 package fr.teamunc.ekip_unclib.minecraft.commandsExecutor;
 
+import fr.teamunc.base_unclib.BaseLib;
 import fr.teamunc.base_unclib.utils.helpers.Message;
+import fr.teamunc.base_unclib.models.libtools.CommandsTab;
 import fr.teamunc.ekip_unclib.EkipLib;
 import fr.teamunc.ekip_unclib.models.UNCTeam;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class TeamCommands implements CommandExecutor {
+public class TeamCommands  extends CommandsTab implements CommandExecutor{
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!EkipLib.isInit()) {
@@ -28,11 +32,11 @@ public class TeamCommands implements CommandExecutor {
                         UNCTeam.UNCTeamBuilder teamBuilder = UNCTeam.builder(args[1]);
 
                         if (args.length >= 3) {
-                            teamBuilder.color(args[3]);
+                            teamBuilder.color(args[2]);
                         }
 
                         if (args.length >= 4) {
-                            teamBuilder.prefix(args[4]);
+                            teamBuilder.prefix(args[3]);
                         } else {
                             teamBuilder.prefix(args[1]);
                         }
@@ -72,7 +76,7 @@ public class TeamCommands implements CommandExecutor {
                             if (team.getPlayers().contains(uuid)) {
                                 Message.Get().sendMessage("Player " + args[2] + " is already in team " + args[1], sender, true);
                             } else {
-                                team.addPlayer(uuid);
+                                EkipLib.getTeamController().joinTeam(player, team);
                                 Message.Get().sendMessage("Player " + args[2] + " added to team " + args[1], sender, false);
                             }
                         }
@@ -93,7 +97,7 @@ public class TeamCommands implements CommandExecutor {
                             if (!team.getPlayers().contains(uuid)) {
                                 Message.Get().sendMessage("Player " + args[2] + " is not in team " + args[1], sender, true);
                             } else {
-                                team.removePlayer(uuid);
+                                EkipLib.getTeamController().leaveTeam(player, team);
                                 Message.Get().sendMessage("Player " + args[2] + " removed from team " + args[1], sender, false);
                             }
                         }
@@ -147,5 +151,47 @@ public class TeamCommands implements CommandExecutor {
             Message.Get().sendMessage("usage : /unct <create|delete|join|leave|list|info>", sender, true);
             return true;
         }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        List<String> result;
+        List<String> subcommands = Arrays.asList("create", "delete", "join", "leave", "list", "info");
+        switch (args[0]) {
+            case "create": {
+                result = checkAllTab(
+                        args,
+                        subcommands,
+                        EkipLib.getTeamController().getTeams().stream().map(UNCTeam::getName).collect(Collectors.toList()),
+                        Arrays.stream(ChatColor.values()).map(ChatColor::name).collect(Collectors.toList()));
+                break;
+            }
+            case "info":
+            case "list":
+            case "delete": {
+                result = checkAllTab(
+                        args,
+                        subcommands,
+                        EkipLib.getTeamController().getTeams().stream().map(UNCTeam::getName).collect(Collectors.toList()));
+                break;
+            }
+            case "leave":
+            case "join": {
+                result = checkAllTab(
+                        args,
+                        subcommands,
+                        EkipLib.getTeamController().getTeams().stream().map(UNCTeam::getName).collect(Collectors.toList()),
+                        Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
+                break;
+            }
+            default: {
+                result = checkAllTab(args, subcommands);
+                break;
+            }
+        }
+
+        //sort the list
+        Collections.sort(result);
+        return result;
     }
 }

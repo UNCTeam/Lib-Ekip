@@ -1,6 +1,7 @@
 package fr.teamunc.ekip_unclib;
 
 import fr.teamunc.ekip_unclib.controllers.UNCTeamController;
+import fr.teamunc.ekip_unclib.minecraft.eventlisteners.PlayerListener;
 import fr.teamunc.ekip_unclib.models.UNCTeamContainer;
 import lombok.Getter;
 import org.bukkit.command.PluginCommand;
@@ -19,6 +20,8 @@ public class EkipLib {
     private static UNCTeamController teamController;
     @Getter
     private static Map<String, Object> teamInformationInitialiser;
+
+    private EkipLib() {}
 
     public static void init(JavaPlugin plugin, Map<String, Object> teamInformationInitialiser) {
         EkipLib.plugin = plugin;
@@ -53,6 +56,10 @@ public class EkipLib {
         if (teamCommand != null) {
             teamCommand.setExecutor(new TeamCommands());
         }
+    }
+
+    public static void initGameListeners(Ekip_UNCLib ekip_uncLib) {
+        ekip_uncLib.getServer().getPluginManager().registerEvents(new PlayerListener(), ekip_uncLib);
     }
 
 }

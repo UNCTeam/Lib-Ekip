@@ -1,7 +1,10 @@
 package fr.teamunc.ekip_unclib.models;
 
+import com.google.errorprone.annotations.RestrictedApi;
 import fr.teamunc.ekip_unclib.EkipLib;
 import lombok.*;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,10 +38,12 @@ public class UNCTeam{
         return new UNCTeamBuilder().name(name).players(new ArrayList<>()).additionalInformation(EkipLib.getTeamInformationInitialiser());
     }
 
+    @RestrictedApi(explanation = "This method is only used by the plugin itself", link = "UncTeamController")
     public void addPlayer(UUID uuid) {
         this.players.add(uuid);
     }
 
+    @RestrictedApi(explanation = "This method is only used by the plugin itself", link = "UncTeamController")
     public void removePlayer(UUID uuid) {
         this.players.remove(uuid);
     }
