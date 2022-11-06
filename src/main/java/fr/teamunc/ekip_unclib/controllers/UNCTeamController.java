@@ -77,7 +77,7 @@ public class UNCTeamController{
                 UNCTeam teamPlayer = team.get();
 
                 // custom tablist
-                player.setPlayerListName("" + ChatColor.valueOf(teamPlayer.getColor()) + ChatColor.BOLD + "[" + teamPlayer.getPrefix() + "]" + player.getName());
+                player.setPlayerListName("" + ChatColor.valueOf(teamPlayer.getColor()) + ChatColor.BOLD + "[" + teamPlayer.getPrefix() + "] " + player.getName());
             } else {
                 // custom tablist
                 player.setPlayerListName(player.getName());
