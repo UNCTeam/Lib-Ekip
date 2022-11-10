@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class UNCTeamController{
 
@@ -57,6 +58,11 @@ public class UNCTeamController{
         refreshPlayerList();
 
         return false;
+    }
+
+    @Nullable
+    public UNCTeam getTeamOfPlayer(UUID playerUUID) {
+        return getTeams().stream().filter(team -> team.getPlayers().contains(playerUUID)).findFirst().orElse(null);
     }
 
     public UNCTeamController(UNCTeamContainer uncTeamContainer) {
